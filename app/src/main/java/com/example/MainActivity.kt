@@ -217,7 +217,7 @@ fun FlashlightScreen() {
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(Brush.verticalGradient(listOf(topGradientColor, bottomGradientColor)))
+                .background(Brush.verticalGradient(listOf(Color(0xFF1E2124), Color(0xFF121415))))
                 .padding(innerPadding),
             contentAlignment = Alignment.Center
         ) {
@@ -232,90 +232,119 @@ fun FlashlightScreen() {
                     modifier = Modifier.fillMaxSize(),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Spacer(modifier = Modifier.height(48.dp))
+                    Spacer(modifier = Modifier.height(64.dp))
                     
                     Text(
-                        text = "FLASHLIGHT",
-                        color = if (isTorchOn) Color(0xFFFFD54F) else Color(0xFF555555),
+                        text = "PREMIUM FLASHLIGHT",
+                        color = if (isTorchOn) Color(0xFFFFD54F) else Color(0xFF6B7280),
                         style = MaterialTheme.typography.titleMedium,
-                        fontWeight = FontWeight.Bold,
-                        letterSpacing = 8.sp
+                        fontWeight = FontWeight.ExtraBold,
+                        letterSpacing = 4.sp
                     )
 
                     Spacer(modifier = Modifier.weight(1f))
 
+                    // 3D Neumorphic Main Button
                     Box(
                         contentAlignment = Alignment.Center,
-                        modifier = Modifier.size(260.dp)
+                        modifier = Modifier.size(280.dp)
                     ) {
                         if (isTorchOn) {
                             Box(
                                 modifier = Modifier
-                                    .size(160.dp)
+                                    .size(200.dp)
                                     .scale(pulseScale)
                                     .clip(CircleShape)
                                     .background(Color(0xFFFFD54F).copy(alpha = pulseAlpha))
                             )
-                            Box(
-                                modifier = Modifier
-                                    .size(160.dp)
-                                    .scale(pulseScale * 1.3f)
-                                    .clip(CircleShape)
-                                    .background(Color(0xFFFFD54F).copy(alpha = pulseAlpha * 0.5f))
-                            )
                         }
 
+                        // Outer Bevel (Dark ring)
                         Box(
                             modifier = Modifier
-                                .size(160.dp)
-                                .shadow(
-                                    elevation = if (isTorchOn) 48.dp else 16.dp,
-                                    shape = CircleShape,
-                                    spotColor = if (isTorchOn) Color(0xFFFFD54F) else Color.Black,
-                                    ambientColor = if (isTorchOn) Color(0xFFFFD54F) else Color.Black
-                                )
+                                .size(220.dp)
                                 .clip(CircleShape)
-                                .background(iconBackgroundColor)
-                                .border(
-                                    width = 1.dp,
-                                    color = if (isTorchOn) Color(0xFFFFF1BA) else Color(0xFF333333),
-                                    shape = CircleShape
+                                .background(
+                                    Brush.linearGradient(
+                                        colors = listOf(Color(0xFF101213), Color(0xFF282B30)),
+                                        start = androidx.compose.ui.geometry.Offset(0f, 0f),
+                                        end = androidx.compose.ui.geometry.Offset(Float.POSITIVE_INFINITY, Float.POSITIVE_INFINITY)
+                                    )
                                 ),
                             contentAlignment = Alignment.Center
                         ) {
-                            Icon(
-                                imageVector = if (isTorchOn) Icons.Rounded.FlashlightOn else Icons.Rounded.FlashlightOff,
-                                contentDescription = "Flashlight Icon",
-                                tint = iconColor,
-                                modifier = Modifier.size(72.dp)
-                            )
+                            // Inner Button (Convex)
+                            Box(
+                                modifier = Modifier
+                                    .size(190.dp)
+                                    .shadow(
+                                        elevation = if (isTorchOn) 24.dp else 4.dp,
+                                        shape = CircleShape,
+                                        spotColor = if (isTorchOn) Color(0xFFFFD54F) else Color.Black
+                                    )
+                                    .clip(CircleShape)
+                                    .background(
+                                        Brush.linearGradient(
+                                            colors = if (isTorchOn) listOf(Color(0xFFFFEA9E), Color(0xFFECAE00)) 
+                                                     else listOf(Color(0xFF33373D), Color(0xFF191C1F)),
+                                            start = androidx.compose.ui.geometry.Offset(0f, 0f),
+                                            end = androidx.compose.ui.geometry.Offset(Float.POSITIVE_INFINITY, Float.POSITIVE_INFINITY)
+                                        )
+                                    ),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Icon(
+                                    imageVector = if (isTorchOn) Icons.Rounded.FlashlightOn else Icons.Rounded.FlashlightOff,
+                                    contentDescription = "Flashlight Icon",
+                                    tint = if (isTorchOn) Color(0xFF5A3C00) else Color(0xFF0F1112),
+                                    modifier = Modifier.size(80.dp)
+                                )
+                            }
                         }
                     }
 
                     Spacer(modifier = Modifier.weight(1f))
 
-                    androidx.compose.material3.Button(
-                        onClick = { toggleTorch() },
+                    // 3D Power Switch / Button
+                    Box(
                         modifier = Modifier
-                            .height(72.dp)
-                            .fillMaxWidth(0.8f)
-                            .shadow(
-                                elevation = if (isTorchOn) 24.dp else 8.dp,
-                                shape = RoundedCornerShape(36.dp),
-                                spotColor = if (isTorchOn) Color(0xFFFFD54F) else Color.Black
-                            ),
-                        colors = androidx.compose.material3.ButtonDefaults.buttonColors(
-                            containerColor = if (isTorchOn) Color(0xFFFFD54F) else Color(0xFF222222),
-                            contentColor = if (isTorchOn) Color(0xFF000000) else Color(0xFFFFFFFF)
-                        ),
-                        shape = RoundedCornerShape(36.dp)
+                            .height(80.dp)
+                            .fillMaxWidth(0.85f)
+                            .clip(RoundedCornerShape(40.dp))
+                            .background(
+                                Brush.verticalGradient(
+                                    colors = listOf(Color(0xFF1A1C1F), Color(0xFF23272B))
+                                )
+                            )
+                            .border(
+                                width = 1.dp,
+                                color = Color(0xFF30353A),
+                                shape = RoundedCornerShape(40.dp)
+                            )
+                            .clickable { toggleTorch() },
+                        contentAlignment = Alignment.Center
                     ) {
-                        Text(
-                            text = if (isTorchOn) "TURN OFF" else "TURN ON",
-                            style = MaterialTheme.typography.titleLarge,
-                            fontWeight = FontWeight.Bold,
-                            letterSpacing = 2.sp
-                        )
+                        Box(
+                            modifier = Modifier
+                                .fillMaxSize(0.95f)
+                                .clip(RoundedCornerShape(40.dp))
+                                .background(
+                                    Brush.verticalGradient(
+                                        colors = if (isTorchOn) listOf(Color(0xFFFFDF73), Color(0xFFF5B200)) 
+                                                 else listOf(Color(0xFF32373D), Color(0xFF1C1F23))
+                                    )
+                                )
+                                .shadow(if (isTorchOn) 16.dp else 0.dp, spotColor = Color(0xFFFFD54F)),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text(
+                                text = if (isTorchOn) "TURN OFF" else "TURN ON",
+                                style = MaterialTheme.typography.titleLarge,
+                                fontWeight = FontWeight.ExtraBold,
+                                letterSpacing = 3.sp,
+                                color = if (isTorchOn) Color(0xFF6B4700) else Color(0xFF88929C)
+                            )
+                        }
                     }
                     
                     Spacer(modifier = Modifier.height(64.dp))
